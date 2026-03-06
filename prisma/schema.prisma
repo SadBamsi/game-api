@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Color {
+  id              Int    @id @default(autoincrement())
+  englishName     String
+  belarussianName String
+  imageURL        String
+}
+
+enum LanguageMode {
+  en
+  by
+}
+
+model User {
+  id        Int           @id @default(autoincrement())
+  email     String        @unique
+  name      String
+  password  String
+  createdAt DateTime      @default(now())
+  progress  UserProgress?
+}
+
+model UserProgress {
+  userId            Int          @id
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  levelStatus       Json
+  currentStageIndex Int
+  languageMode      LanguageMode @default(en)
+  updatedAt         DateTime     @updatedAt
+}
+
+model Fruit {
+  id              Int    @id @default(autoincrement())
+  englishName     String
+  belarussianName String
+  imageURL        String
+}
+
+model Animal {
+  id              Int    @id @default(autoincrement())
+  englishName     String
+  belarussianName String
+  imageURL        String
+}
+
+model Shape {
+  id              Int    @id @default(autoincrement())
+  englishName     String
+  belarussianName String
+  imageURL        String
+}
